@@ -129,8 +129,9 @@ const newIntern = [
 function addManager() {
     inquirer
         .prompt(newManager).then(data => {
-        let manager = new Manager(data.managerName, data.managerID, this.email = data.managerEmail, data.managerPhone)
+        let manager = new Manager(data.managerName, data.managerID, data.managerEmail, data.managerPhone)
         employees.push(manager);
+        console.log(employees);
         addAnother();
     })
 }
@@ -138,8 +139,9 @@ function addManager() {
 function addEngineer() {
     inquirer
         .prompt(newEngineer).then(data => {
-        let engineer = new Engineer(data.engineerName, data.engineerID, this.email = data.engineerEmail, data.engineerPhone)
+        let engineer = new Engineer(data.engineerName, data.engineerID, data.engineerEmail, this.githubID = data.engineerGitHubID)
         employees.push(engineer);
+        console.log(employees);
         addAnother();
     })
 }
@@ -147,9 +149,21 @@ function addEngineer() {
 function addIntern() {
     inquirer
         .prompt(newIntern).then(data => {
-        let intern = new Intern(data.internName, data.internID, this.email = data.internEmail, data.internPhone)
+        let intern = new Intern(data.internName, data.internID, data.internEmail, this.githubID = data.interngithubID, this.school = data.internSchool)
         employees.push(intern);
         addAnother();
+    })
+}
+
+function addAnother() {
+    inquirer
+        .prompt(newEmployee).then(data => {
+       if(data.addPrompt == "Yes") {
+        addEmployee();
+       }
+       else{
+        writeToFile(outputPath, render(employees));
+       }
     })
 }
 
@@ -166,26 +180,19 @@ function addEmployee() {
         addIntern();
       }   
       else if (data.selectType == "Nevermind"){
-        // ????
+       addAnother();
       }  
-    //    else {
-    //        throw err;
-    //    }
     })
 }
 
-function addAnother() {
-    inquirer
-        .prompt(newEmployee).then(data => {
-       if(data.addPrompt == "Yes") {
-        addEmployee();
-       }
-       else{
-       console.log("no more new employee");
-       }
-    })
-}
-
+function writeToFile(path, data) {
+    fs.writeFile(path, data, (err) => {
+      if (err) {
+        throw err;
+      }
+      console.log("team.html created successfully!");
+    });
+  }
 
 addManager();
 
