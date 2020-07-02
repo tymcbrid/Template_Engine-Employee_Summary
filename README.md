@@ -1,4 +1,4 @@
-# README_generator   
+# Team Profile Template Engine
 ### This project uses the command line to collect information from a user and then it dynamically creates a team roster web page.
 
 
